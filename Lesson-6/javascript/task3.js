@@ -1,0 +1,49 @@
+"use strict";
+document.write(` <br>
+    <div>3. Обробник черги повідомлень 📧</div>
+    <div>Інтерфейс: IMessage – визначає структуру повідомлення, яке має бути оброблено (topic: string, payload: object, timestamp: Date).</div>
+    <div>Клас: MessageQueueProcessor – має метод process(message: IMessage). Клас не створює повідомлення, але очікує на вхідні дані, що відповідають IMessage.</div>
+    <br>`);
+const messages = [
+    {
+        topic: "topic1",
+        payload: { type: "message" },
+        timestamp: new Date(),
+    },
+    {
+        topic: "topic2",
+        payload: { type: "video" },
+        timestamp: new Date(),
+    },
+    {
+        topic: "topic3",
+        payload: { type: "spark" },
+        timestamp: new Date(),
+    },
+];
+class MessageQueueProcessor {
+    constructor(messageList) {
+        this.messageList = messageList;
+    }
+    process(message) {
+        if (typeof message.topic === "string" &&
+            typeof message.payload === "object" &&
+            message.timestamp instanceof Date)
+            return true;
+        return false;
+    }
+    getHTMLEl(message) {
+        const div = document.createElement("div");
+        div.innerText = `${message.topic} - ${message.timestamp.toLocaleDateString()}`;
+        return div;
+    }
+    processMessages() {
+        const messageList = this.messageList;
+        messageList.forEach((message) => {
+            if (this.process(message))
+                document.body.append(this.getHTMLEl(message));
+        });
+    }
+}
+const messagesQueue = new MessageQueueProcessor(messages);
+messagesQueue.processMessages();
