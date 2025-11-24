@@ -1,0 +1,39 @@
+// 📂 2. Каталог товарів у магазині
+// Завдання:  Опиши структуру ProductComponent, де:
+// Product - це окремий товар (листок);
+// Category - це категорія, яка може містити підкатегорії або товари.
+// Додай метод getTotalPrice() - він повинен рахувати суму цін усіх товарів у категорії.
+// Мета: продемонструвати використання Composite для розрахунків у деревоподібних структурах.
+import Product from "./9_Composite/Product.js";
+class Category {
+    constructor(title = "title") {
+        this.title = title;
+        this.children = [];
+    }
+    add(item) {
+        this.children.push(item);
+    }
+    getTotalPrice() {
+        let sum = 0;
+        for (const child of this.children) {
+            sum += child.getTotalPrice().price;
+        }
+        return { title: this.title, price: sum };
+    }
+}
+const p1 = new Product("Mouse", 300);
+const p2 = new Product("Keyboard", 1000);
+const p3 = new Product("Processor", 15000);
+const p4 = new Product("Graphic card", 21000);
+const accessories = new Category("Accessories");
+const pcParts = new Category("PC parts");
+const computers = new Category("Computers");
+accessories.add(p1);
+accessories.add(p2);
+pcParts.add(p3);
+pcParts.add(p4);
+computers.add(accessories);
+computers.add(pcParts);
+console.log(computers.getTotalPrice());
+console.log(accessories.getTotalPrice());
+console.log(pcParts.getTotalPrice());

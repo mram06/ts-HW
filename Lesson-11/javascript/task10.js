@@ -1,0 +1,24 @@
+"use strict";
+// 💤 3. Ліниве завантаження (Virtual Proxy)
+// Завдання:  Створи клас Image з методом display(), який показує зображення.
+// Додай ImageProxy, який відкладає завантаження “важкого” файлу до моменту,
+// коли користувач реально викликає display().
+// Мета: навчитися реалізовувати lazy loading великих ресурсів через проксі.
+class _Image {
+    display() {
+        console.log("Image.webp");
+    }
+}
+class ImageProxy {
+    constructor(realImage = new _Image()) {
+        this.realImage = realImage;
+    }
+    display() {
+        console.log("Lazy loading image...");
+        setTimeout(() => {
+            this.realImage.display();
+        }, 5000);
+    }
+}
+const img = new ImageProxy(new _Image());
+img.display();
