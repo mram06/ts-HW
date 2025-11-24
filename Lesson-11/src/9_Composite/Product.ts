@@ -1,3 +1,4 @@
+import IProduct from "./IProduct";
 import IProductComponent from "./IProductComponent";
 
 export default class Product implements IProductComponent {
